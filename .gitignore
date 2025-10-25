@@ -1,0 +1,5 @@
+# Abaikan file konfigurasi yang berisi rahasia
+config.php
+
+# Abaikan log server
+php_server.log

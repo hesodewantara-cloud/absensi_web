@@ -2,10 +2,8 @@
 // handle_login.php
 session_start();
 
-// ------- CONFIG: Sesuaikan dengan file get_data.php -------
-$supabase_url = 'https://vvttumhvzdfliindaubi.supabase.co'; // ganti
-$supabase_key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2dHR1bWh2emRmbGlpbmRhdWJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyODk3OTAsImV4cCI6MjA3NTg2NTc5MH0.gAum44Q819Y20xw7oGd1eKwfYBKPnruyIBCiuOWYj1g'; // ganti
-// ---------------------------------------------------------
+// Muat konfigurasi
+require_once __DIR__ . '/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: login.php');
