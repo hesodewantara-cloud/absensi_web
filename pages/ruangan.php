@@ -14,7 +14,7 @@ if ($_SESSION['user_role'] !== 'admin') {
     <button id="addRoomBtn">Tambah Ruangan</button>
 </div>
 
-<div id="room-list">
+<div id="room-list" class="table-wrapper">
     <!-- Daftar ruangan akan dimuat di sini oleh JavaScript -->
     <p>Memuat daftar ruangan...</p>
 </div>

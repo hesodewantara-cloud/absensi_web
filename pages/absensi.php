@@ -13,12 +13,12 @@ require_once __DIR__ . '/../partials/header.php';
 </div>
 
 <h3>Absensi Tepat Waktu (Sebelum 15:15)</h3>
-<div id="attendance-list-ontime">
+<div id="attendance-list-ontime" class="table-wrapper">
     <p>Memuat data...</p>
 </div>
 
 <h3 style="margin-top: 30px;">Absensi Terlambat (Setelah 15:15)</h3>
-<div id="attendance-list-late">
+<div id="attendance-list-late" class="table-wrapper">
     <p>Memuat data...</p>
 </div>
 
@@ -34,32 +34,20 @@ document.addEventListener('DOMContentLoaded', async function() {
         lateList.innerHTML = '<p>Memuat...</p>';
 
         try {
-            // Kita akan menggunakan endpoint get_data.php yang sudah ada, tapi mungkin perlu sedikit modifikasi
-            const response = await fetch(`/api/get_data.php?date=${selectedDate}`);
-            const rawData = await response.json();
+            const response = await fetch(`/api/attendance_list.php?date=${selectedDate}`);
+            const attendanceData = await response.json();
 
-            // Periksa apakah ada error
-            if (rawData.error) {
-                throw new Error(rawData.error);
-            }
-
-            // Proses data mentah menjadi daftar absensi
-            let allAttendance = [];
-            if(rawData.raw_count > 0) {
-                 // Ekstrak semua entri dari grid
-                 Object.values(rawData.grid).forEach(room => {
-                    Object.values(room).forEach(slotEntries => {
-                        allAttendance.push(...slotEntries);
-                    });
-                });
+            if (attendanceData.error) {
+                throw new Error(attendanceData.error);
             }
 
             const ontimeData = [];
             const lateData = [];
-            const lateThreshold = new Date(`${selectedDate}T15:15:00`);
+            // Waktu diubah ke UTC untuk perbandingan yang konsisten dengan data Supabase
+            const lateThreshold = new Date(`${selectedDate}T15:15:00Z`).getTime();
 
-            allAttendance.forEach(att => {
-                const attTime = new Date(att.timestamp);
+            attendanceData.forEach(att => {
+                const attTime = new Date(att.timestamp).getTime();
                 if (attTime > lateThreshold) {
                     lateData.push(att);
                 } else {

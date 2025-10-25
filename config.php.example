@@ -1,0 +1,8 @@
+<?php
+// config.php.example
+// Salin file ini ke config.php dan isi dengan kredensial Supabase Anda.
+
+// Kredensial Supabase
+$supabase_url = 'URL_PROYEK_SUPABASE_ANDA';
+$supabase_key = 'KUNCI_ANON_SUPABASE_ANDA';
+?>

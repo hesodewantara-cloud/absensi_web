@@ -13,7 +13,7 @@ if ($_SESSION['user_role'] !== 'admin') {
     <h2>Manajemen Pengguna</h2>
 </div>
 
-<div id="user-list">
+<div id="user-list" class="table-wrapper">
     <!-- Daftar pengguna akan dimuat di sini oleh JavaScript -->
     <p>Memuat daftar pengguna...</p>
 </div>

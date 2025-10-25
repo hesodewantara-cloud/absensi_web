@@ -11,7 +11,7 @@ $is_admin = $_SESSION['user_role'] === 'admin';
     <?php endif; ?>
 </div>
 
-<div id="leave-list">
+<div id="leave-list" class="table-wrapper">
     <!-- Daftar izin akan dimuat di sini oleh JavaScript -->
     <p>Memuat daftar izin...</p>
 </div>

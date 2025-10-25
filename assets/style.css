@@ -1,63 +1,425 @@
-/* style.css */
-:root{
-  --bg: #f7f9fc;
-  --card: #fff;
-  --text: #111827;
-  --muted: #6b7280;
-  --accent: #0ea5e9;
-  --border: #e6edf3;
-  --cell-bg: #ffffff;
-  --highlight: rgba(14,165,233,0.08);
-}
-[data-theme="dark"]{
-  --bg: #0b1220;
-  --card: #0f1724;
-  --text: #e6eef8;
-  --muted: #9aa6b2;
-  --accent: #38bdf8;
-  --border: #1f2a37;
-  --cell-bg: #081122;
-  --highlight: rgba(56,189,248,0.12);
+/* assets/style.css */
+
+/* --- Import Font --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* --- Variabel CSS untuk Light & Dark Mode --- */
+:root {
+    --font-family: 'Poppins', sans-serif;
+    --transition-speed: 0.3s;
+
+    /* Light Theme */
+    --bg-color-light: #f4f7f9;
+    --card-bg-color-light: #ffffff;
+    --text-color-light: #333333;
+    --heading-color-light: #1a202c;
+    --primary-color-light: #3498db;
+    --primary-hover-light: #2980b9;
+    --border-color-light: #e2e8f0;
+    --shadow-color-light: rgba(0, 0, 0, 0.05);
+
+    /* Dark Theme */
+    --bg-color-dark: #1a202c;
+    --card-bg-color-dark: #2d3748;
+    --text-color-dark: #e2e8f0;
+    --heading-color-dark: #ffffff;
+    --primary-color-dark: #4299e1;
+    --primary-hover-dark: #2b6cb0;
+    --border-color-dark: #4a5568;
+    --shadow-color-dark: rgba(0, 0, 0, 0.2);
 }
 
-*{box-sizing:border-box;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
-body{margin:0;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:24px;}
-.container{width:100%;max-width:1200px;}
-.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.topbar h1{margin:0;font-size:1.25rem}
-.controls{display:flex;gap:8px;align-items:center}
-.controls input[type="date"]{padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text)}
-.controls button{padding:6px 10px;border-radius:6px;border:1px solid var(--border);background:var(--card);cursor:pointer}
-
-.status{margin-bottom:12px;color:var(--muted)}
-
-/* Grid styles */
-.grid-wrap{overflow:auto;background:transparent;border-radius:10px}
-.attendance-grid{border-collapse:separate;border-spacing:0;width:100%;min-width:800px}
-.attendance-grid thead th{
-  position:sticky;top:0;background:var(--card);z-index:3;border-bottom:1px solid var(--border);padding:10px 12px;text-align:center;
-  font-weight:600;font-size:0.95rem;
+/* --- Terapkan Warna Berdasarkan Tema --- */
+html {
+    --bg-color: var(--bg-color-light);
+    --card-bg-color: var(--card-bg-color-light);
+    --text-color: var(--text-color-light);
+    --heading-color: var(--heading-color-light);
+    --primary-color: var(--primary-color-light);
+    --primary-hover: var(--primary-hover-light);
+    --border-color: var(--border-color-light);
+    --shadow-color: var(--shadow-color-light);
 }
-.attendance-grid tbody tr:nth-child(odd) td{background:linear-gradient(180deg,transparent,transparent)}
-.attendance-grid th.room-col{
-  position:sticky;left:0;z-index:4;text-align:left;padding:10px 12px;background:var(--card);
-  border-right:1px solid var(--border);
-  min-width:160px;
-}
-.attendance-grid td{
-  padding:10px 12px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);vertical-align:top;
-  background:var(--cell-bg);min-width:140px;height:72px;
-}
-.cell-empty{opacity:0.45;color:var(--muted);font-style:italic}
-.attendee{display:block;padding:6px;border-radius:8px;background:var(--highlight);margin:4px 0}
-.attendee .name{font-weight:700}
-.attendee .email{font-size:0.85rem;color:var(--muted);display:block}
 
-/* hover highlight column/row */
-.attendance-grid tr:hover td{background:rgba(0,0,0,0.02)}
-.attendance-grid td:hover{outline:2px solid rgba(14,165,233,0.12)}
+html[data-theme='dark'] {
+    --bg-color: var(--bg-color-dark);
+    --card-bg-color: var(--card-bg-color-dark);
+    --text-color: var(--text-color-dark);
+    --heading-color: var(--heading-color-dark);
+    --primary-color: var(--primary-color-dark);
+    --primary-hover: var(--primary-hover-dark);
+    --border-color: var(--border-color-dark);
+    --shadow-color: var(--shadow-color-dark);
+}
 
-/* responsive: make grid scrollable on small screens */
-@media (max-width:900px){
-  .attendance-grid{min-width:720px}
+/* --- Reset & Global Styles --- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* --- Typography --- */
+h1, h2, h3, h4 {
+    color: var(--heading-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+h1 { font-size: 2.2rem; }
+h2 { font-size: 1.8rem; }
+
+/* --- Komponen Umum: Tombol --- */
+button, .button-logout, .button-checkin {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color var(--transition-speed), transform var(--transition-speed);
+}
+
+button:hover, .button-logout:hover, .button-checkin:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+/* --- Komponen Umum: Tabel --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    background-color: var(--card-bg-color);
+    box-shadow: 0 4px 15px var(--shadow-color);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 1rem 1.25rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+thead {
+    background-color: var(--bg-color);
+}
+
+th {
+    font-weight: 600;
+    color: var(--heading-color);
+}
+
+/* --- Komponen Umum: Form --- */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--heading-color);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    font-family: var(--font-family);
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* --- Komponen Umum: Modal --- */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-speed), visibility var(--transition-speed);
+}
+
+.modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: var(--card-bg-color);
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    transform: scale(0.95);
+    transition: transform var(--transition-speed);
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+}
+
+.close-btn {
+    float: right;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+/* --- Utilitas --- */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.status-hadir { color: #2ecc71; font-weight: bold; }
+.status-telat { color: #e74c3c; font-weight: bold; }
+.status-menunggu { color: #f39c12; font-weight: bold; }
+
+/* --- Header & Navigasi --- */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--heading-color);
+}
+
+.logo b {
+    color: var(--primary-color);
+}
+
+.main-nav {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    position: relative;
+    transition: color var(--transition-speed);
+}
+
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: width var(--transition-speed);
+}
+
+.main-nav a:hover, .main-nav a.active {
+    color: var(--primary-color);
+}
+
+.main-nav a:hover::after, .main-nav a.active::after {
+    width: 100%;
+}
+
+.nav-button-checkin {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: background-color var(--transition-speed);
+}
+.nav-button-checkin:hover {
+    background-color: var(--primary-hover);
+    color: #fff;
+}
+.nav-button-checkin::after { display: none; }
+
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+#themeToggle {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+#themeToggle:hover {
+    background-color: var(--border-color);
+}
+
+#mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--heading-color);
+    cursor: pointer;
+}
+
+/* --- Dashboard --- */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.stat-card {
+    background-color: var(--card-bg-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--shadow-color);
+}
+
+.stat-card h3 {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--heading-color);
+}
+
+.stat-card .card-icon {
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3rem;
+    color: var(--primary-color);
+    opacity: 0.1;
+}
+
+.chart-container {
+    background-color: var(--card-bg-color);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+
+/* Responsiveness */
+@media (max-width: 992px) {
+    .main-nav {
+        display: none;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background-color: var(--card-bg-color);
+        flex-direction: column;
+        padding: 1rem;
+        box-shadow: 0 8px 16px var(--shadow-color);
+        border-radius: 0 0 12px 12px;
+    }
+    .main-nav.show {
+        display: flex;
+    }
+    #mobile-menu-toggle {
+        display: block;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    h1 { font-size: 1.8rem; }
+    h2 { font-size: 1.5rem; }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* Membuat tabel bisa di-scroll di mobile */
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 600px; /* Paksa tabel memiliki lebar minimum */
+    }
+
+    .header-controls .button-logout {
+        padding: 0.5rem 1rem;
+    }
 }

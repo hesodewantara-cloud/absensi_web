@@ -12,31 +12,35 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
 
 $token = $_SESSION['access_token'];
 
-// Fungsi untuk mendapatkan hitungan
-function get_count($table, $token) {
-    // RPC count_estimate lebih cepat untuk tabel besar, tapi SELECT dengan head lebih sederhana
-    $response = supabase_fetch("/rest/v1/$table?select=*", 'GET', null, $token, ['Prefer: count=exact']);
-    // Header 'Range-Total' akan berisi total baris
-    // Ini perlu modifikasi pada fungsi supabase_fetch untuk mengembalikan header
-    // Untuk kesederhanaan sekarang, kita hitung saja hasilnya
-    return count($response['data']);
+function get_count($table, $token, $filter = '') {
+    $headers = ['Prefer: count=exact'];
+    $endpoint = "/rest/v1/$table?select=id" . ($filter ? "&$filter" : '') . '&limit=0';
+
+    $response = supabase_fetch($endpoint, 'GET', null, $token, $headers);
+
+    if (isset($response['headers']['content-range'])) {
+        $range = $response['headers']['content-range'];
+        // Formatnya adalah "0-0/TOTAL"
+        return (int) explode('/', $range)[1];
+    }
+    return 0;
 }
 
-// Untuk sementara, kita akan gunakan beberapa panggilan GET
 // Total Pengguna
-$users_res = supabase_fetch('/rest/v1/users?select=id', 'GET', null, $token);
+$total_users = get_count('users', $token);
 
 // Total Ruangan
-$rooms_res = supabase_fetch('/rest/v1/rooms?select=id', 'GET', null, $token);
+$total_rooms = get_count('rooms', $token);
 
 // Absensi Hari Ini
 $today_start = date('Y-m-d') . 'T00:00:00Z';
 $today_end = date('Y-m-d') . 'T23:59:59Z';
-$attendance_res = supabase_fetch('/rest/v1/attendance?select=id&timestamp=gte.' . $today_start . '&timestamp=lte.' . $today_end, 'GET', null, $token);
+$attendance_filter = 'timestamp=gte.' . $today_start . '&timestamp=lte.' . $today_end;
+$today_attendance = get_count('attendance', $token, $attendance_filter);
 
 echo json_encode([
-    'total_users' => is_array($users_res['data']) ? count($users_res['data']) : 0,
-    'total_rooms' => is_array($rooms_res['data']) ? count($rooms_res['data']) : 0,
-    'today_attendance' => is_array($attendance_res['data']) ? count($attendance_res['data']) : 0,
+    'total_users' => $total_users,
+    'total_rooms' => $total_rooms,
+    'today_attendance' => $today_attendance,
 ]);
 ?>
